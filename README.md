@@ -118,7 +118,7 @@ The machine needs to be prepared. In CI this is done using [`molecule/default/pr
       openssl_key_directory: /tmp
       openssl_items:
         - name: haproxy
-          common_name: "{{ ansible_fqdn }}"
+          common_name: "{{ ansible_facts['fqdn'] }}"
     # This role is applied to serve as a mock "backend" server. See `molecule/default/verify.yml`.
     - role: robertdebock.httpd
       httpd_port: 8080
@@ -129,7 +129,7 @@ The machine needs to be prepared. In CI this is done using [`molecule/default/pr
       Alpine: /var/www/localhost/htdocs
       Suse: /srv/www/htdocs
 
-    httpd_data_directory: "{{ _httpd_data_directory[ansible_os_family] | default(_httpd_data_directory['default'] ) }}"
+    httpd_data_directory: "{{ _httpd_data_directory[ansible_facts['os_family']] | default(_httpd_data_directory['default'] ) }}"
   post_tasks:
     - name: Place health check
       ansible.builtin.copy:
@@ -276,10 +276,9 @@ This role has been tested on these [container images](https://hub.docker.com/u/r
 
 |container|tags|
 |---------|----|
-|[Amazon](https://hub.docker.com/r/robertdebock/amazonlinux)|Candidate|
 |[Debian](https://hub.docker.com/r/robertdebock/debian)|bullseye, bookworm, trixie|
 |[EL](https://hub.docker.com/r/robertdebock/enterpriselinux)|9|
-|[Fedora](https://hub.docker.com/r/robertdebock/fedora)|42, 40|
+|[Fedora](https://hub.docker.com/r/robertdebock/fedora)|42|
 |[Ubuntu](https://hub.docker.com/r/robertdebock/ubuntu)|jammy, noble|
 
 The minimum version of Ansible required is 2.12, tests have been done on:

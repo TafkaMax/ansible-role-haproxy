@@ -9,6 +9,9 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches:
+      - master
   schedule:
     - cron: '15 8 8 * *'
 
@@ -24,13 +27,12 @@ jobs:
   molecule:
     needs:
       - lint
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         distro:
-          - image: "amazonlinux"
-            tag: "latest"
           - image: "debian"
             tag: "bullseye"
           - image: "debian"
@@ -41,8 +43,6 @@ jobs:
             tag: "latest"
           - image: "fedora"
             tag: "latest"
-          - image: "fedora"
-            tag: "40"
           - image: "ubuntu"
             tag: "jammy"
           - image: "ubuntu"
