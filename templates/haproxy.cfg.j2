@@ -76,6 +76,11 @@ backend {{ backend.name }}
 {% elif backend.httpcheck is defined and backend.httpcheck %}
     option httpchk
 {% endif %}
+{% if backend.extra_opts is defined and backend.extra_opts %}
+{% for opt_name, opt_value in backend.extra_opts.items() %}
+    {{ opt_name }} {{ opt_value }}
+{% endfor %}
+{% endif %}
 
 {% if backend.http_check is defined %}
     http-check send meth {{ backend.http_check.send.method }} uri {{ backend.http_check.send.uri }}
