@@ -29,6 +29,8 @@
     src: haproxy.cfg.j2
     dest: /etc/haproxy/haproxy.cfg
     validate: haproxy -c -f %s
+    trim_blocks: true
+    lstrip_blocks: true
     mode: "0640"
     backup: true
   notify:

@@ -54,6 +54,11 @@ frontend {{ frontend.name }}
 {% if frontend.no_log is defined and frontend.no_log %}
     no log
 {% endif %}
+{% if frontend.extra_opts is defined and frontend.extra_opts %}
+{% for opt_name, opt_value in frontend.extra_opts.items() %}
+    {{ opt_name }} {{ opt_value }}
+{% endfor %}
+{% endif %}
 {% endfor %}
 
 {% for backend in haproxy_backends %}
