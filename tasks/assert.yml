@@ -103,12 +103,12 @@
           - item.name is string
           - item.name is not none
           - item.address is defined
-          - item.address is string
+          - item.address is string or item.address is iterable
           - item.address is not none
-          - item.port is defined
-          - item.port is number
-          - item.port > 0
-          - item.port < 65536
+          - "{% if item.address | list != true %}item.port is defined{% endif %}"
+          - "{% if item.address | list != true %}item.port is number{% endif %}"
+          - "{% if item.address | list != true %}item.port > 0{% endif %}"
+          - "{% if item.address | list != true %}item.port < 65536{% endif %}"
         quiet: true
       loop: "{{ haproxy_frontends }}"
       loop_control:
