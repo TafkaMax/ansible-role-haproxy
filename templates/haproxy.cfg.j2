@@ -64,7 +64,9 @@ frontend {{ frontend.name }}
 {% endif %}
 {% if frontend.extra_opts is defined and frontend.extra_opts %}
 {% for opt_name, opt_value in frontend.extra_opts.items() %}
-    {{ opt_name }} {{ opt_value }}
+    {{ opt_name }}{% if opt_value %} {{ opt_value }}{% endif %}{% if not loop.last %}
+
+    {% endif %}
 {% endfor %}
 {% endif %}
 {% endfor %}
@@ -78,7 +80,9 @@ backend {{ backend.name }}
 {% endif %}
 {% if backend.extra_opts is defined and backend.extra_opts %}
 {% for opt_name, opt_value in backend.extra_opts.items() %}
-    {{ opt_name }} {{ opt_value }}
+    {{ opt_name }}{% if opt_value %} {{ opt_value }}{% endif %}{% if not loop.last %}
+
+    {% endif %}
 {% endfor %}
 {% endif %}
 
