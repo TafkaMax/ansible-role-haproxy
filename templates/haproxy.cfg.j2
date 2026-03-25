@@ -38,9 +38,9 @@ listen stats
 
 {% for frontend in haproxy_frontends %}
 frontend {{ frontend.name }}
-    {% if frontend.address | type == "str" %}
+    {% if frontend.address is string %}
     bind {{ frontend.address }}:{{ frontend.port }}{% if frontend.address == '::' %} v6only{% endif %}{% if frontend.ssl is defined and frontend.ssl == true %} ssl{% endif %}{% if frontend.crts is defined and frontend.crts | length > 0 %} {% for crt in frontend.crts %} crt {{ crt }}{% endfor %}{% endif %}
-    {% elif frontend.address | type == "list" %}
+    {% elif frontend.address is iterable and frontend.address is not string %}
     {% for addr in frontend.address %}
     bind {{ addr.address}}
     {% endfor %}
