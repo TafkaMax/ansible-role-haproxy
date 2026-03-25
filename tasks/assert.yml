@@ -96,23 +96,24 @@
           - haproxy_frontends is iterable
         quiet: true
 
-    - name: assert | Test item in haproxy_frontends
+    - name: assert | Test item in haproxy_frontends (When address is of type string)
       ansible.builtin.assert:
         that:
           - item.name is defined
           - item.name is string
           - item.name is not none
           - item.address is defined
-          - item.address is string or item.address is iterable
+          - item.address is string
           - item.address is not none
-          - "{% if item.address | list != true %}item.port is defined{% endif %}"
-          - "{% if item.address | list != true %}item.port is number{% endif %}"
-          - "{% if item.address | list != true %}item.port > 0{% endif %}"
-          - "{% if item.address | list != true %}item.port < 65536{% endif %}"
+          - item.port is defined
+          - item.port is number
+          - item.port > 0
+          - item.port < 65536
         quiet: true
       loop: "{{ haproxy_frontends }}"
       loop_control:
         label: "{{ item.name }}"
+      when: item.address is string
 
     - name: assert | Test item in haproxy_frontends with ssl
       ansible.builtin.assert:
