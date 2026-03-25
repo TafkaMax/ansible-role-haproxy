@@ -42,7 +42,7 @@ frontend {{ frontend.name }}
     bind {{ frontend.address }}:{{ frontend.port }}{% if frontend.address == '::' %} v6only{% endif %}{% if frontend.ssl is defined and frontend.ssl == true %} ssl{% endif %}{% if frontend.crts is defined and frontend.crts | length > 0 %} {% for crt in frontend.crts %} crt {{ crt }}{% endfor %}{% endif %}
     {% elif frontend.address is iterable and frontend.address is not string %}
     {% for addr in frontend.address %}
-    bind {{ addr.address }}:{{ addr.port }}{% if addr.address == '::' %} v6only{% endif %}{% if addr.ssl is defined and addr.ssl == true %} ssl{% endif %}{% if addr.crts is defined and addr.crts | length > 0 %} {% for crt in addr.crts %} crt {{ crt }}{% endfor %}{% endif %}
+    bind {{ addr.address }}:{{ addr.port }}{% if addr.address == '::' %} v6only{% endif %}{% if frontend.ssl is defined and frontend.ssl == true %} ssl{% endif %}{% if frontend.crts is defined and frontend.crts | length > 0 %} {% for crt in frontend.crts %} crt {{ crt }}{% endfor %}{% endif %}
     {% endfor %}
     {% endif %}
 
